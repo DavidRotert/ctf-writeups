@@ -1,6 +1,6 @@
 # Baby Eval
 ## The App
-Baby Eval is a Node app which lists has a path `/` which lists some information including the server source code. As seen in the code the information comes from the following function:
+Baby Eval is a Node app which has a path `/` which lists some information including the server source code. As seen in the code the information comes from the following function:
 
 ```javascript
 function directory(keys) {
@@ -35,7 +35,7 @@ if (payload && typeof payload === "string") {
 ```
 
 ## Tried solutions
-The goal was to get the flag. First I saw that the code can execute `eval` by entering a `payload` as the `GET` query parameter. I first did not see that the ReEx is a Blacklist, not a whitelist, so many things don't work including calling functions because `(` and `)` are not allowed. Then I googled for a way to call a function without prenthesis. Found
+The goal was to get the flag. First I saw that the code can execute `eval` by entering a `payload` as the `GET` query parameter. I first did not see that the ReEx is a Blacklist, not a whitelist (stupid me), so many things don't work including calling functions because `(` and `)` are not allowed. I first tried something like Then I googled for a way to call a function without prenthesis. Found
 ```javascript
 alert\`hello\`
 ```

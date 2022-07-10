@@ -5,7 +5,7 @@ vsCAPTCHA is secured by a special CAPTCHA kind of thing written in TypeScript an
 
 1. `b1` and `b2` are initialized with a random number from 0-500
 2. app starts to listen to `POST` requests in `/captcha`
-	1.  if Header `x-captcha-state` is set, it checks if body form value `solution` is equal to expected CAPTCHA
+	1.  if Header `x-captcha-state` is set, it checks if body JSON value `solution` is equal to expected CAPTCHA
 	2. expected CPATCHAs are stored in a Map `random JWT UUID` => expected
 	3. If expeted value does not match `solution`, it returns and sets JWT field `failed` to `true`
 	4. else it generates a new CPATCHA, stores it in the map of expected value
