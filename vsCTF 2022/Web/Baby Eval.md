@@ -37,7 +37,7 @@ if (payload && typeof payload === "string") {
 ## Tried solutions
 The goal was to get the flag. First I saw that the code can execute `eval` by entering a `payload` as the `GET` query parameter. I first did not see that the ReEx is a Blacklist, not a whitelist (stupid me), so many things don't work including calling functions because `(` and `)` are not allowed. I first tried something like Then I googled for a way to call a function without prenthesis. Found
 ```javascript
-alert\`hello\`
+alert`hello`
 ```
 and remembered that JavaScript Template Literals can have tags which are basically functions which first parameter is a list of strings. This list contains the parts of the string, split by the injection variables (`${x}`).
 
