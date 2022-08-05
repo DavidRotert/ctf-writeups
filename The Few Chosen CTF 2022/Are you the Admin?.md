@@ -32,4 +32,4 @@ model User {
 }
 ```
 
-By sending a custom request body where `isAdmin` is setz to `true` we can reveal the flag.
+By sending a custom request body where `isAdmin` is set to `true` we can reveal the flag.
