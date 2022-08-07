@@ -110,7 +110,7 @@ The Tomcat servers version might be vulnerable to Remote Code Execution via a ma
 I tried it but the server is not vulnerable and forbids  `PUT` requests.
 
 ## Code Review
-The Java Servlet has `log4j` 2.14.1 as a dependency, which is vulnerable to Remote Code Execution via JNDI (Java Native Directory Interface).
+The Java Servlet has `log4j` 2.14.1 as a dependency, which is vulnerable to Remote Code Execution via JNDI (Java Naming and Directory Interface).
 
 Looking at the code, `ProfileServlet.java` logs the content of a `debug` Cookie value. This can be used to perform a log4shell attack. However, this is only possible if the user is logged in.
 
